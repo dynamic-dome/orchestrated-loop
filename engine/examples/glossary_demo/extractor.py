@@ -229,6 +229,9 @@ def main(argv: list[str] | None = None) -> int:
     entries = extract_glossary(Path(args.input), min_score=args.min_score)
     write_outputs(entries, Path(args.out), Path(args.json_out))
     print(f"Glossar erzeugt: {args.out} ({len(entries)} Begriffe)")
+    if entries:
+        terms = ", ".join(e.term for e in entries)
+        print(f"Begriffe: {terms}")
     return 0
 
 
