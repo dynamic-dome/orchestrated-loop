@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# Loop state and secrets
+.loop/
+.env
+handoff/
+
+# OS
+.DS_Store
+Thumbs.db

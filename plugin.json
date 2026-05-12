@@ -1,0 +1,8 @@
+{
+  "name": "orchestrated-loop",
+  "version": "0.1.0",
+  "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) mit persistierenden State-Dateien pro Projekt.",
+  "author": "domes",
+  "commands": ["commands/loop-run.md"],
+  "skills": ["skills/orchestrated-loop", "skills/loop-adapter-author"]
+}
