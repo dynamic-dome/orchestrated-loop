@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import platform
 import shlex
 import subprocess
 import sys
@@ -34,8 +35,20 @@ class LocalShellBuilder:
                 primary.returncode = test_result.returncode
         return primary
 
+    @staticmethod
+    def _quote_python() -> str:
+        """Return a shell-safe reference to the current Python interpreter.
+
+        On Windows cmd.exe does not understand POSIX single-quote escaping
+        produced by shlex.quote(), so we wrap the path in double-quotes instead.
+        On POSIX systems we use shlex.quote() as usual.
+        """
+        if platform.system() == "Windows":
+            return f'"{sys.executable}"'
+        return shlex.quote(sys.executable)
+
     def _exec(self, command: str, label: str) -> BuildResult:
-        rendered = command.replace("{python}", shlex.quote(sys.executable))
+        rendered = command.replace("{python}", self._quote_python())
         env = os.environ.copy()
         try:
             completed = subprocess.run(
