@@ -1,0 +1,19 @@
+[loop]
+task_name = "Markdown-Notizen in ein prüfbares Glossar überführen"
+max_iterations = 3
+target_score = 0.85
+
+[roles]
+orchestrator = "dummy"
+researcher = "dummy"
+builder = "local_shell"
+judge = "dummy"
+
+[adapter.local_shell]
+command = "{python} engine/examples/glossary_demo/extractor.py --input engine/examples/glossary_demo/data/example_notes --out .loop/glossar.md --json-out .loop/glossar.json --min-score 1"
+timeout_seconds = 120
+
+[judge]
+required_terms = ["Agentic OS", "Daily Pulse", "NotebookLM", "Claude Code", "Quality Gate", "Orchestrator", "Researcher", "Builder", "Judge"]
+required_artifacts = []
+min_passing_score = 0.85
