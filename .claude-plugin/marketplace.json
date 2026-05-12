@@ -1,18 +1,21 @@
 {
-  "name": "orchestrated-loop-local",
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "orchestrated-loop-marketplace",
+  "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) als Claude-Code-Plugin mit persistierenden State-Dateien pro Projekt.",
   "owner": {
-    "name": "domes"
+    "name": "willneverusegit",
+    "email": "noreply@local"
   },
   "plugins": [
     {
       "name": "orchestrated-loop",
+      "description": "Iterativer Loop mit 4 Rollen und 5 Standard-Adaptern (dummy, local_shell, notebooklm_cli, codex_rescue, openai_chat). State (PLAN/TODO/LOG/DECISIONS/RESULTS) liegt projekt-lokal unter .loop/<run-id>/.",
+      "category": "development",
       "source": {
-        "source": "local",
-        "path": "."
+        "source": "github",
+        "repo": "willneverusegit/orchestrated-loop"
       },
-      "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) mit persistierenden State-Dateien pro Projekt.",
-      "version": "0.1.0",
-      "tags": ["loop", "orchestrator", "adapters", "tdd"]
+      "homepage": "https://github.com/willneverusegit/orchestrated-loop"
     }
   ]
 }
