@@ -14,6 +14,7 @@ from orchestrated_loop.adapters.base import (
     JudgeScore,
     Plan,
 )
+from orchestrated_loop.adapters.exceptions import LoopChatError
 
 
 CHAT_URL = "https://api.openai.com/v1/chat/completions"
@@ -45,23 +46,51 @@ def _require_key() -> str:
 
 
 def _chat(model: str, system: str, user: str, api_key: str, timeout: int = 60) -> str:
-    response = _http_post(
-        CHAT_URL,
-        json={
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": user},
-            ],
-            "response_format": {"type": "json_object"},
-            "temperature": 0.2,
-        },
-        headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
-        timeout=timeout,
-    )
-    response.raise_for_status()
-    data = response.json()
-    return data["choices"][0]["message"]["content"]
+    try:
+        import httpx
+    except ImportError:
+        httpx = None  # type: ignore[assignment]
+
+    try:
+        response = _http_post(
+            CHAT_URL,
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                "response_format": {"type": "json_object"},
+                "temperature": 0.2,
+            },
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            timeout=timeout,
+        )
+    except AdapterUnavailable:
+        raise
+    except Exception as exc:
+        is_timeout = httpx is not None and isinstance(exc, httpx.TimeoutException)
+        raise LoopChatError(
+            f"Chat request {'timed out' if is_timeout else 'failed'}: {exc}",
+        ) from exc
+
+    if response.status_code >= 400:
+        body = response.text
+        raise LoopChatError(
+            f"Chat request failed with HTTP {response.status_code}",
+            status_code=response.status_code,
+            body=body,
+        )
+
+    try:
+        data = response.json()
+        return data["choices"][0]["message"]["content"]
+    except (KeyError, ValueError) as exc:
+        raise LoopChatError(
+            f"Chat response malformed: {exc}",
+            status_code=response.status_code,
+            body=response.text,
+        ) from exc
 
 
 class OpenAIChatOrchestrator:

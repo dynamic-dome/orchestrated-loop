@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.2.0] - 2026-05-13
+
+### Added
+
+- `LoopChatError` exception class in `orchestrated_loop.adapters.exceptions` for uniform error reporting from chat adapters (HTTP errors, transport failures, malformed responses).
+- 5 tests in `engine/tests/test_adapters_openai_exceptions.py` covering 401/429/500 wrapping, transport-failure chaining (`__cause__`), and malformed-response handling.
+
+### Changed
+
+- `openai_chat._chat()` now wraps all failure modes in `LoopChatError` instead of propagating raw `httpx`/transport exceptions or `KeyError`/`ValueError` from response parsing. Callers can now handle a single exception type with `status_code` and `body` attributes.
+
+### Why
+
+Callers had to know about httpx internals to handle chat failures. Wrapping them in `LoopChatError` gives downstream code (orchestrator, judge consumers) a stable surface and structured metadata. Originating exception remains accessible via `__cause__`.
+
 ## [0.1.0] - 2026-05-12
 
 ### Added
