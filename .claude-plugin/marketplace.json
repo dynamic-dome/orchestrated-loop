@@ -1,0 +1,18 @@
+{
+  "name": "orchestrated-loop-local",
+  "owner": {
+    "name": "domes"
+  },
+  "plugins": [
+    {
+      "name": "orchestrated-loop",
+      "source": {
+        "source": "local",
+        "path": "."
+      },
+      "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) mit persistierenden State-Dateien pro Projekt.",
+      "version": "0.1.0",
+      "tags": ["loop", "orchestrator", "adapters", "tdd"]
+    }
+  ]
+}
