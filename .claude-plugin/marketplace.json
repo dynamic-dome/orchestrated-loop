@@ -3,7 +3,7 @@
   "name": "orchestrated-loop-marketplace",
   "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) als Claude-Code-Plugin mit persistierenden State-Dateien pro Projekt.",
   "owner": {
-    "name": "willneverusegit",
+    "name": "dynamic-dome",
     "email": "noreply@local"
   },
   "plugins": [
@@ -13,9 +13,9 @@
       "category": "development",
       "source": {
         "source": "github",
-        "repo": "willneverusegit/orchestrated-loop"
+        "repo": "dynamic-dome/orchestrated-loop"
       },
-      "homepage": "https://github.com/willneverusegit/orchestrated-loop"
+      "homepage": "https://github.com/dynamic-dome/orchestrated-loop"
     }
   ]
 }

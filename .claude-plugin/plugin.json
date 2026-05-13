@@ -1,9 +1,9 @@
 {
   "name": "orchestrated-loop",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Adapter-agnostischer 4-Rollen-Loop (Orchestrator/Researcher/Builder/Judge) mit persistierenden State-Dateien pro Projekt.",
   "author": {
-    "name": "willneverusegit",
+    "name": "dynamic-dome",
     "email": "noreply@local"
   }
 }
